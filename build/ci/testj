@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-	registry = "vicsnr/webapp"
+	CONTAINER_TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER.padLeft(5, '0')}"
+        registry = "vicsnr/webapp"
 	registryCredential = 'dockerhub'
         dockerImage= ''
     }
@@ -12,7 +13,7 @@ pipeline {
         stage ('Build Image') {
             steps{
 			  
-		  sh "docker build $registry:$CONTAINER_TAG"
+		  dockerImage = sh "docker build $registry:$CONTAINER_TAG"
 			  }
 			
         }
