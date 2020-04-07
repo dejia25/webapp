@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        CONTAINER_TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER.padLeft(5, '0')}"
 	registry = "vicsnr/webapp"
 	registryCredential = 'dockerhub'
+        dockerImage= ''
     }
 
     stages {
