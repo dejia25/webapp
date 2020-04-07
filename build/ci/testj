@@ -13,7 +13,7 @@ pipeline {
         stage ('Build Image') {
             steps{
 			  
-		  dockerImage = sh "docker build $registry:$CONTAINER_TAG"
+		  dockerImage = sh "docker build $registry + :$CONTAINER_TAG"
 			  }
 			
         }
