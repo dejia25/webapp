@@ -8,12 +8,23 @@ pipeline {
         dockerImage= ''
     }
 
+        stage('Build') {
+           steps {
+             sh 'npm install'
+       }
+    }
+         stage('Test') {
+           steps {
+             sh 'npm test'
+      }
+    }
+
     stages {
 
         stage ('Build Image') {
             steps{
 			  
-		  dockerImage = sh "docker build $registry + :$CONTAINER_TAG"
+		  dockerImage = docker.build registry + ":$CONTAINER_TAG"
 			  }
 			
         }
