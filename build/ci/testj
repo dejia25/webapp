@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    environment {
+        CONTAINER_TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER.padLeft(5, '0')}"
+	registry = "vicsnr/webapp"
+	registryCredential = 'dockerhub'
+    }
+
+    stages {
+
+        stage ('Build Image') {
+            steps{
+			  
+		  sh "dockerImage = docker.build $registry + ":$CONTAINER_TAG"
+			  }
+			
+        }
+
+		stage('Push Image') {
+		  steps{
+			script {
+			  docker.withRegistry( '', registryCredential ) {
+				dockerImage.push()
+			  }
+			}
+		  }
+		}
+
+		stage('Remove Unused docker image') {
+		  steps{
+			sh "docker rmi $registry:$CONTAINER_TAG"
+		  }
+		}
+          }
+       }
